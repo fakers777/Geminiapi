@@ -301,9 +301,7 @@ def _code_assist_headers(credentials: google_credentials.Credentials) -> Dict[st
     return {
         "Authorization": f"Bearer {credentials.token}",
         "Content-Type": "application/json",
-        "Accept": "application/json",
         "User-Agent": CLI_DEFAULT_USER_AGENT,
-        "X-Goog-Api-Client": CLI_CLIENT_HEADER,
     }
 
 
