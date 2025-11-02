@@ -318,7 +318,11 @@ async def _post_code_assist_json(
     timeout_config = httpx.Timeout(timeout, read=timeout)
 
     client = await _get_shared_httpx_client()
-    response = await client.post(url, json=payload, headers=headers, timeout=timeout_config)
+    # Manually serialize the payload to a string to ensure exact format matching
+    # with the reference implementation, which uses `requests` with `data=json.dumps(...)`.
+    # The internal Google API might be sensitive to the exact JSON string format.
+    content_body = json.dumps(payload)
+    response = await client.post(url, content=content_body, headers=headers, timeout=timeout_config)
 
     if response.status_code >= 400:
         detail = _format_code_assist_error(response)
